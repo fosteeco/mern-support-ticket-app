@@ -5,8 +5,16 @@
   "main": "server.js",
   "scripts": {
     "start": "node backend/server.js",
+    "server": "nodemon backend/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Christian Foster",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "colors": "^1.4.0",
+    "dotenv": "^15.0.0",
+    "express": "^4.17.2",
+    "mongoose": "^6.1.10"
+  }
 }
