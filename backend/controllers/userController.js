@@ -1,5 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 const User = require("../models/userModel");
 
@@ -36,12 +37,13 @@ const registerUser = asyncHandler(async (req, res) => {
     password: hashedPassword,
   });
 
-  /* TODO: Implement a token */
   if (user) {
     res.status(201).json({
       _id: user._id,
       name: user.name,
       email: user.email,
+      /* Token must be signed and have the user Id inside of it */
+      token: generateToken(user._id),
     });
   } else {
     res.status(400);
@@ -61,6 +63,8 @@ const loginUser = asyncHandler(async (req, res) => {
       _id: user._id,
       name: user.name,
       email: user.email,
+      /* Token must be signed and have the user Id inside of it */
+      token: generateToken(user._id),
     });
   } else {
     res.status(401);
@@ -68,6 +72,15 @@ const loginUser = asyncHandler(async (req, res) => {
   }
 });
 /* Postman tested under Body -> x-www-urlencoded -> key & value pairs */
+/* Can validate tokens @ https://jwt.io */
+
+// Generate token
+const generateToken = (id) => {
+  /* Second argument is JWT Secret, third arg is object with some options */
+  return jwt.sign({ id }, process.env.JWT_SECRET, {
+    expiresIn: "30d" /* Token will expire in 30 days */,
+  });
+};
 
 module.exports = {
   registerUser,
