@@ -84,7 +84,6 @@ const getMe = asyncHandler(async (req, res) => {
     name: req.user.name,
   };
   res.status(200).json(user);
-  res.send("me");
 });
 
 // Generate token
