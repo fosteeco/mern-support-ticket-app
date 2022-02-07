@@ -74,6 +74,19 @@ const loginUser = asyncHandler(async (req, res) => {
 /* Postman tested under Body -> x-www-urlencoded -> key & value pairs */
 /* Can validate tokens @ https://jwt.io */
 
+// @desc    Get current user
+// @route   /api/users/me
+// @access  Private
+const getMe = asyncHandler(async (req, res) => {
+  const user = {
+    id: req.user._id,
+    email: req.user.email,
+    name: req.user.name,
+  };
+  res.status(200).json(user);
+  res.send("me");
+});
+
 // Generate token
 const generateToken = (id) => {
   /* Second argument is JWT Secret, third arg is object with some options */
@@ -85,4 +98,5 @@ const generateToken = (id) => {
 module.exports = {
   registerUser,
   loginUser,
+  getMe,
 };
