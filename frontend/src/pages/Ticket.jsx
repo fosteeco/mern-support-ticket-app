@@ -4,7 +4,11 @@ import Modal from "react-modal";
 import { FaPlus } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
 import { getTicket, closeTicket, reset } from "../features/tickets/ticketSlice";
-import { getNotes, reset as notesRest } from "../features/notes/noteSlice";
+import {
+  getNotes,
+  createNote,
+  reset as notesRest,
+} from "../features/notes/noteSlice";
 import { useParams, useNavigate } from "react-router-dom";
 import BackButton from "../components/BackButton";
 import Spinner from "../components/Spinner.jsx";
@@ -67,7 +71,7 @@ function Ticket() {
   // Creeate note submit
   const onNoteSubmit = (e) => {
     e.preventDefault();
-    console.log("Submit");
+    dispatch(createNote({ noteText, ticketId }));
     closeModal();
   };
 
@@ -100,6 +104,7 @@ function Ticket() {
         </div>
         <h2>Notes</h2>
       </header>
+
       {ticket.status !== "closed" && (
         <button className="btn" onClick={openModal}>
           <FaPlus />
